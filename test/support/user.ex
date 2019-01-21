@@ -8,6 +8,10 @@ defmodule EctoFilter.User do
     field(:age, :integer)
     field(:status, :string)
 
+    field(:interests, {:array, :string})
+    field(:settings, :map)
+    field(:addresses, {:array, :map})
+
     belongs_to(:organization, EctoFilter.Organization)
     has_many(:posts, EctoFilter.Post, foreign_key: :author_id)
 

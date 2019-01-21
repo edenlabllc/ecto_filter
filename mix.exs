@@ -32,6 +32,7 @@ defmodule EctoFilter.MixProject do
     [
       {:ecto, "~> 2.1"},
       {:postgrex, "~> 0.13", optional: true},
+      {:poison, "~> 3.1", optional: true},
       {:ex_machina, "~> 2.2", only: :test}
     ]
   end

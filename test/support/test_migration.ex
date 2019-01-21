@@ -17,6 +17,10 @@ defmodule EctoFilter.TestMigration do
       add(:age, :integer)
       add(:status, :string)
 
+      add(:interests, :map)
+      add(:settings, :map)
+      add(:addresses, :map)
+
       add(:organization_id, references(:organizations))
 
       timestamps()

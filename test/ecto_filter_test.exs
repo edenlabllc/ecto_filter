@@ -22,6 +22,13 @@ defmodule EctoFilterTest do
     def apply(query, condition, type, context), do: super(query, condition, type, context)
   end
 
+  defmodule JSONFilter do
+    use EctoFilter
+    use EctoFilter.Operators.JSON
+
+    def apply(query, condition, type, context), do: super(query, condition, type, context)
+  end
+
   describe "filtering" do
     test "with empty condition" do
       insert_list(2, :user)
@@ -183,10 +190,10 @@ defmodule EctoFilterTest do
     end
 
     test "with many cardinality" do
-      author = insert(:user)
+      author1 = insert(:user)
       author2 = insert(:user)
 
-      insert_list(2, :post, title: "Here is acme news", author: author)
+      insert_list(2, :post, title: "Here is acme news", author: author1)
       insert_list(4, :post, title: "Also acme posts", author: author2)
       insert_list(8, :post, title: "Skip that")
 
@@ -194,10 +201,59 @@ defmodule EctoFilterTest do
         {:posts, nil, [{:title, :like, "acme"}]}
       ]
 
-      results = User |> do_filter(condition)
+      results = do_filter(User, condition)
 
       assert 2 == length(results)
-      assert MapSet.new([author, author2]) == MapSet.new(results)
+      assert MapSet.new([author1, author2]) == MapSet.new(results)
+    end
+  end
+
+  describe "JSON operators" do
+    test "array contains" do
+      users = for interests <- [~w(Art Books), ~w(Books Comics)], do: insert(:user, interests: interests)
+      expected_result = hd(users)
+
+      condition = [
+        {:interests, :contains, "Art"}
+      ]
+
+      results = do_filter(JSONFilter, User, condition)
+
+      assert 1 = length(results)
+      assert expected_result.id == hd(results).id
+    end
+
+    test "conditions on map" do
+      users = for settings <- [%{foo: "bar"}, %{foo: "baz"}], do: insert(:user, settings: settings)
+      expected_result = hd(users)
+
+      condition = [
+        {:settings, nil, [{:foo, :equal, "bar"}]}
+      ]
+
+      results = do_filter(JSONFilter, User, condition)
+
+
+      assert 1 = length(results)
+      assert expected_result.id == hd(results).id
+    end
+
+    test "conditions on array of maps" do
+      users = for addresses <- Enum.chunk_every([%{city: "Kyiv"}, %{city: "Berlin"}, %{city: "Chicago"}], 2) do
+        insert(:user, addresses: addresses)
+      end
+
+      expected_result = hd(users)
+
+      condition = [
+        {:addresses, nil, [{:city, :equal, "Kyiv"}]}
+      ]
+
+      results = do_filter(JSONFilter, User, condition)
+
+
+      assert 1 = length(results)
+      assert expected_result.id == hd(results).id
     end
   end
 
