@@ -9,7 +9,7 @@ defmodule EctoFilter.User do
     field(:status, :string)
 
     belongs_to(:organization, EctoFilter.Organization)
-    has_many(:posts, EctoFilter.Post)
+    has_many(:posts, EctoFilter.Post, foreign_key: :author_id)
 
     timestamps()
   end

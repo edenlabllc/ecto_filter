@@ -153,8 +153,7 @@ defmodule EctoFilterTest do
     end
 
     test "array contains" do
-      posts =
-        for tags <- [~w(lorem ipum dolor), ~w(dolor sit amet)], do: insert(:post, tags: tags)
+      posts = for tags <- [~w(lorem ipum dolor), ~w(dolor sit amet)], do: insert(:post, tags: tags)
 
       expected_result = hd(posts)
 
@@ -181,6 +180,24 @@ defmodule EctoFilterTest do
 
       assert 1 = length(results)
       assert expected_result.id == hd(results).id
+    end
+
+    test "with many cardinality" do
+      author = insert(:user)
+      author2 = insert(:user)
+
+      insert_list(2, :post, title: "Here is acme news", author: author)
+      insert_list(4, :post, title: "Also acme posts", author: author2)
+      insert_list(8, :post, title: "Skip that")
+
+      condition = [
+        {:posts, nil, [{:title, :like, "acme"}]}
+      ]
+
+      results = User |> do_filter(condition)
+
+      assert 2 == length(results)
+      assert MapSet.new([author, author2]) == MapSet.new(results)
     end
   end
 

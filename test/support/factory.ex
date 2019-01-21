@@ -25,8 +25,7 @@ defmodule EctoFilter.Factory do
       first_name: "John",
       last_name: "Doe",
       email: "john@doe.com",
-      age: 20,
-      organization: build(:organization)
+      age: 20
     }
   end
 end

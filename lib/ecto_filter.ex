@@ -3,7 +3,12 @@ defmodule EctoFilter do
   Documentation for EctoFilter.
   """
 
-  @callback apply(Ecto.Query.t(), {field :: atom, rule :: atom, value :: any}, type :: any, context :: Ecto.Queriable.t()) :: Ecto.Query.t()
+  @callback apply(
+              Ecto.Query.t(),
+              {field :: atom, rule :: atom, value :: any},
+              type :: any,
+              context :: Ecto.Queriable.t()
+            ) :: Ecto.Query.t()
 
   defmacro __using__(_) do
     quote do
@@ -42,8 +47,7 @@ defmodule EctoFilter do
   defdelegate filter(query, conditions), to: __MODULE__.Default
 
   def introspect(queryable, field) do
-    queryable.__schema__(:association, field) ||
-    queryable.__schema__(:embed, field) ||
-    queryable.__schema__(:type, field)
+    schema_meta = &queryable.__schema__(&1, field)
+    schema_meta.(:association) || schema_meta.(:embed) || schema_meta.(:type)
   end
 end
