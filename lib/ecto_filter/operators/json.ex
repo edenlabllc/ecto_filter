@@ -1,4 +1,4 @@
-defmodule EctoFilter.Contains.JSON do
+defmodule EctoFilter.Operators.JSON do
   @moduledoc false
 
   defmacro __using__(_) do
