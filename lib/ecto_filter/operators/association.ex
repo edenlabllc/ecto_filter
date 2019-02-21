@@ -7,7 +7,7 @@ defmodule EctoFilter.Operators.Association do
         |> filter(conditions, context)
       end
 
-      def apply(query, {field, nil, conditions}, %{cardinality: :many, owner_key: owner_key, related: context} = ent, _) do
+      def apply(query, {field, nil, conditions}, %{cardinality: :many, owner_key: owner_key, related: context}, _) do
         query
         |> join(:inner, [r], assoc(r, ^field))
         |> filter(conditions, context)
