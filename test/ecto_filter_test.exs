@@ -1,7 +1,7 @@
 defmodule EctoFilterTest do
   use EctoFilter.DataCase
 
-  doctest EctoFilter
+  import Ecto.Query, only: [order_by: 2]
 
   defmodule CustomFilter do
     use EctoFilter
@@ -190,8 +190,8 @@ defmodule EctoFilterTest do
     end
 
     test "with many cardinality" do
-      author1 = insert(:user)
-      author2 = insert(:user)
+      author1 = insert(:user, first_name: "Bob")
+      author2 = insert(:user, first_name: "Alice")
 
       insert_list(2, :post, title: "Here is acme news", author: author1)
       insert_list(4, :post, title: "Also acme posts", author: author2)
@@ -201,10 +201,16 @@ defmodule EctoFilterTest do
         {:posts, nil, [{:title, :like, "acme"}]}
       ]
 
-      results = do_filter(User, condition)
+      results = 
+        User
+        |> EctoFilter.filter(condition)
+        |> order_by([asc: :first_name])
+        |> Repo.all()
 
       assert 2 == length(results)
       assert MapSet.new([author1, author2]) == MapSet.new(results)
+
+      assert "Alice" == hd(results).first_name
     end
   end
 
