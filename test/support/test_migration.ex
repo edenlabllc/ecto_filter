@@ -35,5 +35,14 @@ defmodule EctoFilter.TestMigration do
 
       timestamps()
     end
+
+    create table(:comments) do
+      add(:body, :string)
+
+      add(:author_id, references(:users))
+      add(:post_id, references(:posts))
+
+      timestamps()
+    end
   end
 end

@@ -5,7 +5,7 @@ defmodule EctoFilter.DataCase do
 
   using _ do
     quote do
-      alias EctoFilter.{Organization, Post, Repo, User}
+      alias EctoFilter.{Comment, Organization, Post, Repo, User}
 
       import EctoFilter.Factory
     end

@@ -3,7 +3,15 @@ defmodule EctoFilter.Factory do
 
   use ExMachina.Ecto, repo: EctoFilter.Repo
 
-  alias EctoFilter.{Organization, Post, User}
+  alias EctoFilter.{Comment, Organization, Post, User}
+
+  def comment_factory do
+    %Comment{
+      body: "Dolor sit amet, consectetur adipiscing elit",
+      author: build(:user),
+      post: build(:post)
+    }
+  end
 
   def organization_factory do
     %Organization{

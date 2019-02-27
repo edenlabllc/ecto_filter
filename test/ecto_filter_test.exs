@@ -1,8 +1,6 @@
 defmodule EctoFilterTest do
   use EctoFilter.DataCase
 
-  import Ecto.Query, only: [order_by: 2]
-
   defmodule CustomFilter do
     use EctoFilter
 
@@ -201,16 +199,27 @@ defmodule EctoFilterTest do
         {:posts, nil, [{:title, :like, "acme"}]}
       ]
 
-      results = 
-        User
-        |> EctoFilter.filter(condition)
-        |> order_by([asc: :first_name])
-        |> Repo.all()
+      results = do_filter(User, condition)
 
       assert 2 == length(results)
-      assert MapSet.new([author1, author2]) == MapSet.new(results)
+      assert MapSet.new([author1.id, author2.id]) == MapSet.new(Enum.map(results, & &1.id))
+    end
 
-      assert "Alice" == hd(results).first_name
+    test "with many cardinality through another association" do
+      [post1, post2, post3 | _] = insert_list(4, :post)
+      [author1, author2] = for name <- ~w(Bob Alice), do: insert(:user, first_name: name)
+
+      for post <- [post1, post2], do: insert_pair(:comment, author: author1, post: post)
+      for post <- [post2, post3], do: insert_pair(:comment, author: author2, post: post)
+
+      condition = [
+        {:comments_authors, nil, [{:first_name, :like, "bob"}]}
+      ]
+
+      results = do_filter(Post, condition)
+
+      assert 2 == length(results)
+      assert MapSet.new([post1.id, post2.id]) == MapSet.new(Enum.map(results, & &1.id))
     end
   end
 
@@ -239,15 +248,15 @@ defmodule EctoFilterTest do
 
       results = do_filter(JSONFilter, User, condition)
 
-
       assert 1 = length(results)
       assert expected_result.id == hd(results).id
     end
 
     test "conditions on array of maps" do
-      users = for addresses <- Enum.chunk_every([%{city: "Kyiv"}, %{city: "Berlin"}, %{city: "Chicago"}], 2) do
-        insert(:user, addresses: addresses)
-      end
+      users =
+        for addresses <- Enum.chunk_every([%{city: "Kyiv"}, %{city: "Berlin"}, %{city: "Chicago"}], 2) do
+          insert(:user, addresses: addresses)
+        end
 
       expected_result = hd(users)
 
@@ -256,7 +265,6 @@ defmodule EctoFilterTest do
       ]
 
       results = do_filter(JSONFilter, User, condition)
-
 
       assert 1 = length(results)
       assert expected_result.id == hd(results).id
