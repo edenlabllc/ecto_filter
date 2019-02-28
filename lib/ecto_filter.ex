@@ -25,7 +25,7 @@ defmodule EctoFilter do
       def filter(query, [], _), do: query
 
       def filter(query, conditions, nil) do
-        with %{from: {_, context}} <- Ecto.Queryable.to_query(query) do
+        with %{from: %{source: {_, context}}} <- Ecto.Queryable.to_query(query) do
           filter(query, conditions, context)
         else
           _ -> raise "Unable to get filter context from #{inspect(query)}"
