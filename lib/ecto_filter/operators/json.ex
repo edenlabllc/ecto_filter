@@ -28,6 +28,10 @@ defmodule EctoFilter.Operators.JSON do
         where(query, [..., r], fragment("? @> ?", field(r, ^field), ^conditions))
       end
 
+      def apply(query, operation, type, context), do: super(query, operation, type, context)
+
+      defoverridable EctoFilter
+
       defp prepare_map_conditions(acc \\ [], conditions)
 
       defp prepare_map_conditions(acc, []), do: Map.new(acc)
