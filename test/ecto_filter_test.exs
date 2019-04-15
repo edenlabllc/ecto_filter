@@ -69,11 +69,35 @@ defmodule EctoFilterTest do
       assert expected_result.id == hd(results).id
     end
 
+    test "equal with nil" do
+      users = for email <- [nil, "example@example.com"], do: insert(:user, email: email)
+      expected_result = hd(users)
+
+      condition = [{:email, :equal, nil}]
+
+      results = do_filter(User, condition)
+
+      assert 1 = length(results)
+      assert expected_result.id == hd(results).id
+    end
+
     test "not equal" do
       users = for email <- ~w(foo@bar.baz example@example.com), do: insert(:user, email: email)
       expected_result = hd(users)
 
       condition = [{:email, :not_equal, "example@example.com"}]
+
+      results = do_filter(User, condition)
+
+      assert 1 = length(results)
+      assert expected_result.id == hd(results).id
+    end
+
+    test "not equal with nil" do
+      users = for email <- ["foo@bar.baz", nil], do: insert(:user, email: email)
+      expected_result = hd(users)
+
+      condition = [{:email, :not_equal, nil}]
 
       results = do_filter(User, condition)
 
