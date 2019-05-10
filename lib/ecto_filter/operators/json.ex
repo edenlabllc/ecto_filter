@@ -40,6 +40,10 @@ defmodule EctoFilter.Operators.JSON do
         prepare_map_conditions([{field, value} | acc], tail)
       end
 
+      defp prepare_map_conditions(acc, [{field, nil, conditions} | tail]) do
+        prepare_map_conditions([{field, prepare_map_conditions(conditions)} | acc], tail)
+      end
+
       defp prepare_map_conditions(_, _), do: raise("Only :equal condition on JSON fields allowed")
     end
   end

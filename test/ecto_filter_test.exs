@@ -276,6 +276,23 @@ defmodule EctoFilterTest do
       assert expected_result.id == hd(results).id
     end
 
+    test "conditions on nested map" do
+      users = for settings <- [%{foo: %{bar: "baz"}}], do: insert(:user, settings: settings)
+      expected_result = hd(users)
+
+      condition = [
+        {:settings, nil,
+         [
+           {:foo, nil, [{:bar, :equal, "baz"}]}
+         ]}
+      ]
+
+      results = do_filter(JSONFilter, User, condition)
+
+      assert 1 = length(results)
+      assert expected_result.id == hd(results).id
+    end
+
     test "conditions on array of maps" do
       users =
         for addresses <- Enum.chunk_every([%{city: "Kyiv"}, %{city: "Berlin"}, %{city: "Chicago"}], 2) do

@@ -14,7 +14,12 @@ defmodule EctoFilter.Operators.Association do
         |> group_by(^owner_key)
       end
 
-      def apply(query, {field, nil, conditions}, %{cardinality: :many, owner_key: owner_key, through: through} = type, context) do
+      def apply(
+            query,
+            {field, nil, conditions},
+            %{cardinality: :many, owner_key: owner_key, through: through} = type,
+            context
+          ) do
         related = related_through(context, through)
 
         query

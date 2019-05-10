@@ -5,7 +5,7 @@ defmodule EctoFilter.Operators.PatternMatching do
     quote do
       def apply(query, {field, :like, value}, _, _) do
         value = sanitize_like_input(value)
-        
+
         where(query, [..., r], ilike(field(r, ^field), ^"%#{value}%"))
       end
 
