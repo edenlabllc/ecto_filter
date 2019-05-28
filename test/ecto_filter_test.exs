@@ -129,6 +129,22 @@ defmodule EctoFilterTest do
       assert expected_result.id == hd(results).id
     end
 
+    test "lowercase equal" do
+      expected_result = insert(:user, first_name: "Valentyna")
+      condition = [{:first_name, :lower_equal, "VALENTYNA"}]
+      results = do_filter(User, condition)
+      assert 1 = length(results)
+      assert expected_result.id == hd(results).id
+    end
+
+    test "uppercase equal" do
+      expected_result = insert(:user, last_name: "Cooper")
+      condition = [{:last_name, :lower_equal, "cooper"}]
+      results = do_filter(User, condition)
+      assert 1 = length(results)
+      assert expected_result.id == hd(results).id
+    end
+
     test "less than" do
       users = for age <- [15, 25], do: insert(:user, age: age)
       expected_result = hd(users)

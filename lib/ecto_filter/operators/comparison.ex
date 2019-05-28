@@ -27,6 +27,14 @@ defmodule EctoFilter.Operators.Comparison do
         where(query, [..., r], field(r, ^field) >= ^value)
       end
 
+      def apply(query, {field, :lower_equal, value}, _, _) do
+        where(query, [..., r], fragment("lower(?) = ?", field(r, ^field), ^String.downcase(value)))
+      end
+
+      def apply(query, {field, :upper_equal, value}, _, _) do
+        where(query, [..., r], fragment("upper(?) = ?", field(r, ^field), ^String.upcase(value)))
+      end
+
       def apply(query, {field, :less_than, value}, _, _) do
         where(query, [..., r], field(r, ^field) < ^value)
       end
