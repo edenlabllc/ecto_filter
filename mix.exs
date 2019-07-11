@@ -45,7 +45,8 @@ defmodule EctoFilter.MixProject do
       {:ecto_sql, "~> 3.0"},
       {:postgrex, "~> 0.14", optional: true},
       {:jason, "~> 1.1", optional: true},
-      {:ex_doc, "~> 0.20", only: :dev, runtime: false}
+      {:ex_doc, "~> 0.20", only: :dev, runtime: false},
+      {:git_ops, "~> 0.6.0", only: :dev}
     ]
   end
 end
