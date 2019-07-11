@@ -1,7 +1,7 @@
 defmodule EctoFilter.MixProject do
   use Mix.Project
 
-  @version "0.1.1"
+  @version "0.1.0"
 
   def project do
     [
@@ -10,7 +10,11 @@ defmodule EctoFilter.MixProject do
       elixir: "~> 1.7",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      description: "Aims in building database queries using data as filtering conditions.",
+      package: package(),
+      deps: deps(),
+      name: "EctoFilter",
+      source_url: "https://github.com/edenlabllc/ecto_filter"
     ]
   end
 
@@ -27,6 +31,13 @@ defmodule EctoFilter.MixProject do
   defp extra_applications(:test), do: [:logger, :postgrex]
   defp extra_applications(_), do: [:logger]
 
+  defp package do
+    [
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/edenlabllc/ecto_filter"}
+    ]
+  end
+
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
@@ -34,7 +45,7 @@ defmodule EctoFilter.MixProject do
       {:ecto_sql, "~> 3.0"},
       {:postgrex, "~> 0.14", optional: true},
       {:jason, "~> 1.1", optional: true},
-      {:ex_machina, "~> 2.2", only: :test}
+      {:ex_doc, "~> 0.20", only: :dev, runtime: false}
     ]
   end
 end

@@ -6,6 +6,7 @@ defmodule EctoFilter.Post do
   schema "posts" do
     field(:title, :string)
     field(:body, :string)
+    field(:category, :string)
     field(:tags, {:array, :string})
 
     belongs_to(:author, User)

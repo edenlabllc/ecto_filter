@@ -29,6 +29,7 @@ defmodule EctoFilter.TestMigration do
     create table(:posts) do
       add(:title, :string)
       add(:body, :string)
+      add(:category, :string)
       add(:tags, {:array, :string})
 
       add(:author_id, references(:users))
