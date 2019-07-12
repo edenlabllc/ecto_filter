@@ -13,6 +13,7 @@ defmodule EctoFilter.MixProject do
       description: "Aims in building database queries using data as filtering conditions.",
       package: package(),
       deps: deps(),
+      docs: docs(),
       name: "EctoFilter",
       source_url: "https://github.com/edenlabllc/ecto_filter"
     ]
@@ -47,6 +48,12 @@ defmodule EctoFilter.MixProject do
       {:jason, "~> 1.1", optional: true},
       {:ex_doc, "~> 0.20", only: :dev, runtime: false},
       {:git_ops, "~> 0.6.0", only: :dev}
+    ]
+  end
+
+  defp docs do
+    [
+      main: "EctoFilter"
     ]
   end
 end
