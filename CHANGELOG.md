@@ -5,6 +5,15 @@ See [Conventional Commits](Https://conventionalcommits.org) for commit guideline
 
 <!-- changelog -->
 
+## [0.2.0](https://github.com/edenlabllc/ecto_filter/compare/0.1.0...0.2.0) (2019-7-25)
+
+
+
+
+### Features:
+
+* update ecto to 3.1.7, ecto_sql to 3.1.6
+
 ## [0.1.0](https://github.com/edenlabllc/ecto_filter/compare/0.1.0...0.1.0) (2019-7-11)
 
 
