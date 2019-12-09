@@ -42,8 +42,8 @@ defmodule EctoFilter.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:ecto, "~> 3.1.7"},
-      {:ecto_sql, "~> 3.1.6"},
+      {:ecto, "~> 3.2"},
+      {:ecto_sql, "~> 3.2"},
       {:postgrex, "~> 0.14", optional: true},
       {:jason, "~> 1.1", optional: true},
       {:ex_doc, "~> 0.20", only: :dev, runtime: false},
