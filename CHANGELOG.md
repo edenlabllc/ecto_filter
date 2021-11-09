@@ -5,6 +5,15 @@ See [Conventional Commits](Https://conventionalcommits.org) for commit guideline
 
 <!-- changelog -->
 
+## [0.3.1](https://github.com/edenlabllc/ecto_filter/compare/0.3.0...0.3.1) (2021-11-09)
+
+
+
+
+### Features:
+
+* add `equal_one_of` comparison condition
+
 ## [0.3.0](https://github.com/edenlabllc/ecto_filter/compare/0.2.0...0.3.0) (2021-6-30)
 
 

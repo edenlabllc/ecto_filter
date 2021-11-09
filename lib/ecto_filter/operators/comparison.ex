@@ -56,6 +56,20 @@ defmodule EctoFilter.Operators.Comparison do
       iex> hd(result).email
       "bob@example.com"
 
+  #### With "equal_one_of" condition
+
+      iex> Repo.insert!(%User{email: "bob@example.com"})
+      iex> Repo.insert!(%User{email: "alice@example.com"})
+      iex> Repo.insert!(%User{email: "eve@example.com"})
+      iex> result =
+      ...>   User
+      ...>   |> EctoFilter.filter([{:email, :equal_one_of, ["alice@example.com", "bob@example.com"]}])
+      ...>   |> Repo.all()
+      iex> length(result)
+      2
+      iex> Enum.map(result, fn user -> user.email end)
+      ["bob@example.com", "alice@example.com"]
+
   #### With "less than or equal" condition
 
       iex> Repo.insert!(%User{age: 17})
@@ -113,6 +127,7 @@ defmodule EctoFilter.Operators.Comparison do
   @type rule() ::
           :equal
           | :not_equal
+          | :equal_one_of
           | :less_than_or_equal
           | :greater_than_or_equal
           | :less_than
@@ -136,6 +151,10 @@ defmodule EctoFilter.Operators.Comparison do
 
       def apply(query, {field, :equal, value}, _, _) do
         where(query, [..., r], field(r, ^field) == ^value)
+      end
+
+      def apply(query, {field, :equal_one_of, values}, _, _) do
+        where(query, [..., r], field(r, ^field) in ^values)
       end
 
       def apply(query, {field, :not_equal, nil}, _, _) do

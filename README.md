@@ -9,7 +9,7 @@ The package can be installed by adding `ecto_filter` to your list of dependencie
 ```elixir
 def deps do
   [
-    {:ecto_filter, "~> 0.3.0"}
+    {:ecto_filter, "~> 0.3.1"}
   ]
 end
 ```
