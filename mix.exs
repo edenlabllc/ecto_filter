@@ -1,7 +1,7 @@
 defmodule EctoFilter.MixProject do
   use Mix.Project
 
-  @version "0.3.1"
+  @version "0.4.0"
 
   def project do
     [
@@ -44,7 +44,7 @@ defmodule EctoFilter.MixProject do
     [
       {:ecto, "~> 3.6"},
       {:ecto_sql, "~> 3.6"},
-      {:postgrex, "~> 0.15", optional: true},
+      {:postgrex, "~> 0.15.0 or ~> 0.16.0 or ~> 1.0", optional: true},
       {:jason, "~> 1.1", optional: true},
       {:ex_doc, "~> 0.20", only: :dev, runtime: false},
       {:git_ops, "~> 0.6.0", only: :dev}

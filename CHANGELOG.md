@@ -5,6 +5,15 @@ See [Conventional Commits](Https://conventionalcommits.org) for commit guideline
 
 <!-- changelog -->
 
+## [0.4.0](https://github.com/edenlabllc/ecto_filter/compare/0.3.2...0.4.0) (2022-2-21)
+
+
+
+
+### Features:
+
+* postgrex 0.16.0 support
+
 ## [0.3.1](https://github.com/edenlabllc/ecto_filter/compare/0.3.0...0.3.1) (2021-11-09)
 
 
